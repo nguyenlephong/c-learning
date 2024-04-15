@@ -1,0 +1,5 @@
+1,Nguyễn Văn A,M,1985,123 Maple Street,2.5,2010
+2,Trần Thị B,F,1990,456 Oak Avenue,3.0,2012
+3,Lê Văn C,M,1975,789 Pine Road,3.5,2008
+4,Phạm Thị D,F,1982,101 Cherry Lane,2.8,2011
+5,Nguyễn Văn E,M,1992,102 Elm Street,2.1,2015

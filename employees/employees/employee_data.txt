@@ -1,0 +1,5 @@
+101 John Doe M 1985 123 Main St, City A 50000 2010
+102 Jane Smith F 1990 456 Elm St, City B 60000 2012
+103 Michael Johnson M 1982 789 Oak St, City C 55000 2008
+104 Emily Nguyen F 1988 321 Pine St, City D 52000 2015
+105 David Nguyen M 1992 654 Birch St, City E 58000 2014
