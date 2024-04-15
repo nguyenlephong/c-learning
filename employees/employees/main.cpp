@@ -96,26 +96,76 @@ void DoublyLinkedList::addSorted(Employee* emp) {
     current->next = newNode;
 }
 
-void DoublyLinkedList::remove(int id) {
+
+
+int DoublyLinkedList::countSeniority(int years) {
+    int count = 0;
     Node* current = head;
-    while (current && current->data->id != id) {
+    while (current != nullptr) {
+        if (2024 - current->data->yearOfEmployment >= years) { // Assuming the current year is 2024
+            count++;
+        }
         current = current->next;
     }
-    if (!current) return; // Not found
+    return count;
+}
+
+// Remove employee by ID
+void DoublyLinkedList::remove(int id) {
+    Node* current = head;
+    while (current != nullptr && current->data->id != id) {
+        current = current->next;
+    }
+    if (current == nullptr) return; // Employee not found
 
     if (current->prev) {
         current->prev->next = current->next;
     } else {
-        head = current->next;
+        head = current->next; // Remove from front
     }
     if (current->next) {
         current->next->prev = current->prev;
     } else {
-        tail = current->prev;
+        tail = current->prev; // Remove from end
     }
-    delete current->data;
-    delete current;
+    delete current->data; // Free the memory occupied by Employee
+    delete current; // Free the memory occupied by Node
 }
+
+void DoublyLinkedList::sort() {
+    if (head == nullptr || head->next == nullptr) return; // No need to sort if the list is empty or has one element
+
+    Node* sorted = nullptr;
+    Node* current = head;
+    while (current != nullptr) {
+        Node* next = current->next;
+        if (sorted == nullptr || sorted->data->id >= current->data->id) {
+            current->next = sorted;
+            if (sorted != nullptr) sorted->prev = current;
+            sorted = current;
+            sorted->prev = nullptr;
+        } else {
+            Node* temp = sorted;
+            while (temp->next != nullptr && temp->next->data->id < current->data->id) {
+                temp = temp->next;
+            }
+            current->next = temp->next;
+            if (temp->next != nullptr) {
+                temp->next->prev = current;
+            }
+            temp->next = current;
+            current->prev = temp;
+        }
+        current = next;
+    }
+    head = sorted;
+    // Update tail
+    tail = head;
+    if (tail != nullptr) {
+        while (tail->next != nullptr) tail = tail->next;
+    }
+}
+
 
 void DoublyLinkedList::display() {
     Node* current = head;
@@ -155,17 +205,7 @@ Node* DoublyLinkedList::findLowestSalary() {
     return lowest;
 }
 
-int DoublyLinkedList::countSeniority(int year) {
-    int count = 0;
-    Node* current = head;
-    while (current) {
-        if (2024 - current->data->yearOfEmployment >= year) {
-            count++;
-        }
-        current = current->next;
-    }
-    return count;
-}
+
 
 int DoublyLinkedList::countByGender(char gender) {
     int count = 0;
@@ -295,6 +335,7 @@ void readEmployeeFromKeyboard(DoublyLinkedList& list) {
     Employee* emp = new Employee(id, fullName, gender, yearOfBirth, address, salaryLevel, yearOfEmployment);
     list.addSorted(emp);
 }
+
 
 int main() {
     DoublyLinkedList employeeList;
