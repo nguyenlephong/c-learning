@@ -8,7 +8,7 @@
 using namespace std;
 
 struct Employee {
-    int id;
+    int employeeID; // Renamed id to employeeID
     string fullName;
     char gender;
     int yearOfBirth;
@@ -37,7 +37,7 @@ public:
 
     void addEmployee(const Employee& emp) {
         Employee* newEmp = new Employee(emp);
-        if (head == nullptr || head->id > emp.id) {
+        if (head == nullptr || head->employeeID > emp.employeeID) {
             newEmp->next = head;
             newEmp->prev = nullptr;
             if (head != nullptr) {
@@ -51,7 +51,7 @@ public:
         }
 
         Employee* curr = head;
-        while (curr->next != nullptr && curr->next->id < emp.id) {
+        while (curr->next != nullptr && curr->next->employeeID < emp.employeeID) {
             curr = curr->next;
         }
 
@@ -68,7 +68,7 @@ public:
 
     void removeEmployee(int id) {
         Employee* curr = head;
-        while (curr != nullptr && curr->id != id) {
+        while (curr != nullptr && curr->employeeID != id) {
             curr = curr->next;
         }
         if (curr == nullptr) return;
@@ -89,7 +89,7 @@ public:
     void printEmployees() const {
         Employee* curr = head;
         while (curr != nullptr) {
-            cout << "ID: " << curr->id << ", Name: " << curr->fullName
+            cout << "ID: " << curr->employeeID << ", Name: " << curr->fullName
                  << ", Gender: " << curr->gender << ", Year of Birth: "
                  << curr->yearOfBirth << ", Address: " << curr->address
                  << ", Salary Level: " << curr->salaryLevel
@@ -144,8 +144,8 @@ public:
 void readEmployeeFromKeyboard(EmployeeList& list) {
     Employee emp;
     cout << "Enter ID: ";
-    cin >> emp.id;
-   cin.ignore(numeric_limits<streamsize>::max(), '\n');  // Clear the input buffer
+    cin >> emp.employeeID;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');  // Clear the input buffer
     cout << "Enter Full Name: ";
     getline(cin, emp.fullName);
     cout << "Enter Gender (M/F): ";
@@ -169,18 +169,22 @@ void loadDataFromFile(const string& filename, EmployeeList& list) {
         return;
     }
 
-    string line, temp;
+    string line;
     while (getline(file, line)) {
         stringstream ss(line);
         Employee emp;
 
-        getline(ss, temp, ','); emp.id = stoi(temp);
+        ss >> emp.employeeID;
+        ss.ignore(); // Ignore the comma
         getline(ss, emp.fullName, ',');
-        getline(ss, temp, ','); emp.gender = temp[0];
-        getline(ss, temp, ','); emp.yearOfBirth = stoi(temp);
+        ss >> emp.gender;
+        ss.ignore(); // Ignore the comma
+        ss >> emp.yearOfBirth;
+        ss.ignore(); // Ignore the comma
         getline(ss, emp.address, ',');
-        getline(ss, temp, ','); emp.salaryLevel = stof(temp);
-        getline(ss, temp, ','); emp.yearOfEmployment = stoi(temp);
+        ss >> emp.salaryLevel;
+        ss.ignore(); // Ignore the comma
+        ss >> emp.yearOfEmployment;
 
         list.addEmployee(emp);
     }
@@ -198,7 +202,7 @@ int main() {
         string filename;
         cout << "Enter filename: ";
         cin >> filename;
-        loadDataFromFile(filename, list);
+        loadDataFromFile("./employees.txt", list);
     } else {
         int numEmployees;
         cout << "Enter number of employees to input: ";
