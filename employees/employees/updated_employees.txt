@@ -1,5 +1,6 @@
 1 John_Doe M 1985 123_Maple_St 4 2010
 2 Alice_Jones F 1990 456_Oak_St 3 2012
+3 Jane Doe F 1992 456 Lane 2 2012
 3 Bob_Smith M 1982 789_Pine_St 5 2008
 4 Nguyen_Anh M 1995 101_Aspen_Blvd 2 2015
 5 Sarah_White F 1987 202_Spruce_Ln 3 2011
